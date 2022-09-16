@@ -4,6 +4,7 @@ import (
 	userEntity "go-api/core/user"
 	constants "go-api/infra"
 	repository "go-api/infra/database/repositories/mysql"
+	"go-api/infra/utils"
 	"time"
 )
 
@@ -16,12 +17,14 @@ type PassRecoveryUsecase struct {
 func (s *PassRecoveryUsecase) PassRecovery(input InputPassRecoveryDto) (output OutputPassRecoveryDto) {
 	user := s.UserRepository.FindByEmail(input.Email)
 
-	if (user != userEntity.User{}) {
+	if (user == userEntity.User{}) {
 		output.InternalStatus = 0
 		return
 	}
 
-	lastInsert := s.UserRecoveryPassRepository.CreateRecoveryPass(user.Id, time.Now().Format("2006-01-02 15:04:05"), time.Now().Add(time.Hour*24).Format("2006-01-02 15:04:05"))
+	custompassword := utils.GeneratePassword()
+
+	lastInsert := s.UserRecoveryPassRepository.CreateRecoveryPass(user.Id, custompassword, time.Now().Format("2006-01-02 15:04:05"), time.Now().Add(time.Hour*24).Format("2006-01-02 15:04:05"))
 
 	if lastInsert == 0 {
 		output.InternalStatus = 0

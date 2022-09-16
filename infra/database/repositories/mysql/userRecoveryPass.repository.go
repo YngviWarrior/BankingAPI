@@ -8,14 +8,14 @@ import (
 type UserRecoveryPassRepository struct{}
 
 type UserRecoveryPassRepositoryInterface interface {
-	CreateRecoveryPass(userId uint64, registerTime string, expireTime string) int64
+	CreateRecoveryPass(userId uint64, code string, registerTime string, expireTime string) int64
 }
 
 func (*UserRecoveryPassRepository) CreateRecoveryPass(userId uint64, code string, registerTime string, expireTime string) int64 {
 	conn := database.GetConnection()
 
 	res, err := conn.Exec(`
-		INSERT INTO tarefas(id_usuario, code, nova_senha_hash, data_alterado, data_registro, data_expira) 
+		INSERT INTO usuarios_recuperar_senha(id_usuario, code, nova_senha_hash, data_alterado, data_registro, data_expira) 
 		VALUES (?, ?, ?, ?, ?, ?)
 	`, userId, code, nil, nil, registerTime, expireTime)
 

@@ -18,6 +18,7 @@ func InitServer() {
 	r.HandleFunc("/", controllersInterface.HandlerHome).Methods("GET")
 	r.HandleFunc("/public/signin", controllersInterface.HandlerSignIn).Methods("GET")
 	r.HandleFunc("/public/signup", controllersInterface.HandlerSignUp).Methods("POST")
+	r.HandleFunc("/public/recoverpassword", controllersInterface.HandlerPassRecovery).Methods("POST")
 
 	log.Printf("Running on port %s", os.Getenv("PORT"))
 	err := http.ListenAndServe(os.Getenv("PORT"), r)

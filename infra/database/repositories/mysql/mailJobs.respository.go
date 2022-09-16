@@ -23,10 +23,10 @@ func (*MailJobsRepository) CreateJob(userId uint64, layoutId int64, ref2 int64, 
 	_, err := conn.Exec(`
 		INSERT INTO tarefas (id_tipo, id_status, id_usuario, data_registro, data_proxima_tentativa, ref1, ref2, ref3, ref4, ref5, ref6, ref7) 
 		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-	`, constants.TAREFAS_ID_TIPO_SEND_EMAIL, constants.TAREFAS_ID_STATUS_PENDENTE, userId, time.Now().Format("2006-01-02 15:04:05"), sendDate, ref2, ref3, ref4, ref5, ref6, ref7)
+	`, constants.TAREFAS_ID_TIPO_SEND_EMAIL, constants.TAREFAS_ID_STATUS_PENDENTE, userId, time.Now().Format("2006-01-02 15:04:05"), sendDate, layoutId, ref2, ref3, ref4, ref5, ref6, ref7)
 
 	if err != nil {
-		log.Println("UFBE 01: ", err)
+		log.Println("CJMJR 01: ", err)
 		return false
 	}
 

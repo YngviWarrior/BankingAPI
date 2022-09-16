@@ -31,9 +31,14 @@ func (c Controllers) HandlerPassRecovery(w http.ResponseWriter, r *http.Request)
 
 	usecaseInput := usecase.InputPassRecoveryDto(input)
 
-	var repoInterface repository.UserRepositoryInterface = &repository.UserRepository{}
+	var userRepoInterface repository.UserRepositoryInterface = &repository.UserRepository{}
+	var userRecoveryPassInterface repository.UserRecoveryPassRepositoryInterface = &repository.UserRecoveryPassRepository{}
+	var mailJobsRepoInterface repository.MailJobsRepositoryInterface = &repository.MailJobsRepository{}
+
 	var useCase = usecase.PassRecoveryUsecase{}
-	useCase.UserRepository = repoInterface
+	useCase.UserRepository = userRepoInterface
+	useCase.UserRecoveryPassRepository = userRecoveryPassInterface
+	useCase.MailJobsRepository = mailJobsRepoInterface
 
 	output := useCase.PassRecovery(usecaseInput)
 
