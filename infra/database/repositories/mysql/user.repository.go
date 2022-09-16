@@ -1,7 +1,7 @@
 package mysql
 
 import (
-	user "go-api/core/user/entity"
+	user "go-api/core/user"
 	database "go-api/infra/database"
 
 	"log"
@@ -11,9 +11,9 @@ type UserRepository struct{}
 
 type UserRepositoryInterface interface {
 	FindByEmail(email string) user.User
-	FindAll() (list []string)
 	Create() bool
-	Update() bool
+	// FindAll() (list []string)
+	// Update() bool
 }
 
 func (*UserRepository) Create() bool {
@@ -21,8 +21,7 @@ func (*UserRepository) Create() bool {
 }
 
 func (*UserRepository) FindByEmail(email string) (u user.User) {
-	var db database.Database
-	conn := db.DbConnect().Conn
+	conn := database.GetConnection()
 
 	err := conn.QueryRow(`
 		SELECT id, usuario, senha, hash, id_indicador, data_cadastro, pin, email, admin, saldo, token, total_bonus, total_sacado, 

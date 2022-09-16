@@ -4,6 +4,7 @@ import (
 	server "go-api/infra/api"
 	"log"
 	"os"
+	"time"
 
 	"github.com/joho/godotenv"
 )
@@ -22,9 +23,15 @@ func main() {
 		err = godotenv.Load(".env.local")
 		log.SetOutput(os.Stdout)
 	case "production":
+		loc, _ := time.LoadLocation("America/Sao_Paulo")
+		time.Local = loc
+
 		err = godotenv.Load(".env.production")
 		log.SetOutput(file)
 	case "development":
+		loc, _ := time.LoadLocation("America/Sao_Paulo")
+		time.Local = loc
+
 		err = godotenv.Load(".env.development")
 		log.SetOutput(file)
 	}

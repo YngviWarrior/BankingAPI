@@ -1,22 +1,23 @@
-package homeControllers
+package controllers
 
 import (
 	"encoding/json"
-	controllers "go-api/controllers"
-	repository "go-api/infra/database/mock"
+	repository "go-api/infra/database/repositories/mock"
 	usecases "go-api/usecases/home"
 	"log"
 	"net/http"
 )
 
-func HandlerHome(w http.ResponseWriter, r *http.Request) {
-	var homeRepository repository.MockRepository
+type inputHomeDto struct{}
+
+func (Controllers) HandlerHome(w http.ResponseWriter, r *http.Request) {
+	var homeRepository repository.MockRepositoryInterface = repository.MockRepository{}
 	var homeUseCase = usecases.HomeUseCase{}
-	homeUseCase.HomeRepository = &homeRepository
+	homeUseCase.HomeRepository = homeRepository
 
 	output := homeUseCase.ListAll()
 
-	var send controllers.OutputControllerDto
+	var send outputControllerDto
 	send.Status = 1
 	send.Message = "Success"
 	send.Data = output
