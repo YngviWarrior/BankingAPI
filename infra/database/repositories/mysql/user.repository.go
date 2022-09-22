@@ -1,8 +1,8 @@
 package mysql
 
 import (
-	user "api-user/core/entities/user"
-	database "api-user/infra/database"
+	user "api-go/core/entities/user"
+	database "api-go/infra/database"
 
 	"log"
 )

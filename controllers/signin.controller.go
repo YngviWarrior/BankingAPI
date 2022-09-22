@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	repository "api-user/infra/database/repositories/mysql"
-	usecase "api-user/usecases/signin"
+	repository "api-go/infra/database/repositories/mysql"
+	usecase "api-go/usecases/signin"
 	"encoding/json"
 	"log"
 	"net/http"

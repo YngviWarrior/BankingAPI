@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"api-user/infra/jwt"
-	validate "api-user/infra/validator"
+	"api-go/infra/jwt"
+	validate "api-go/infra/validator"
 	"encoding/json"
 	"log"
 	"net/http"

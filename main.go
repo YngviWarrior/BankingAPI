@@ -1,7 +1,7 @@
 package main
 
 import (
-	server "api-user/infra/api"
+	server "api-go/infra/api"
 	"log"
 	"os"
 	"time"

@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	repository "api-user/infra/database/repositories/mock"
-	usecases "api-user/usecases/home"
+	repository "api-go/infra/database/repositories/mock"
+	usecases "api-go/usecases/home"
 	"encoding/json"
 	"log"
 	"net/http"

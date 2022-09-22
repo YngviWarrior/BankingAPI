@@ -1,7 +1,7 @@
 package homeUseCase
 
 import (
-	repository "api-user/infra/database/repositories/mock"
+	repository "api-go/infra/database/repositories/mock"
 )
 
 type HomeUseCase struct {

@@ -1,10 +1,10 @@
 package signinUsecase
 
 import (
-	userEntity "api-user/core/entities/user"
-	repository "api-user/infra/database/repositories/mysql"
-	"api-user/infra/jwt"
-	"api-user/infra/utils"
+	userEntity "api-go/core/entities/user"
+	repository "api-go/infra/database/repositories/mysql"
+	"api-go/infra/jwt"
+	"api-go/infra/utils"
 	"errors"
 )
 
