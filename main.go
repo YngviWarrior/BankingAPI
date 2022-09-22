@@ -1,7 +1,7 @@
 package main
 
 import (
-	server "go-api/infra/api"
+	server "api-user/infra/api"
 	"log"
 	"os"
 	"time"
@@ -20,19 +20,16 @@ func main() {
 
 	switch os.Getenv("ENVIROMENT") {
 	case "local":
-		err = godotenv.Load(".env.local")
 		log.SetOutput(os.Stdout)
 	case "production":
 		loc, _ := time.LoadLocation("America/Sao_Paulo")
 		time.Local = loc
 
-		err = godotenv.Load(".env.production")
 		log.SetOutput(file)
 	case "development":
 		loc, _ := time.LoadLocation("America/Sao_Paulo")
 		time.Local = loc
 
-		err = godotenv.Load(".env.development")
 		log.SetOutput(file)
 	}
 

@@ -1,8 +1,8 @@
 package mysql
 
 import (
-	constants "go-api/infra"
-	database "go-api/infra/database"
+	constants "api-user/core"
+	database "api-user/infra/database"
 	"log"
 	"time"
 )

@@ -13,7 +13,13 @@ func (v Validator) InputValidator(obj any) []string {
 
 	if err != nil {
 		for _, e := range err.(validator.ValidationErrors) {
-			s := fmt.Sprintf("Input field %s is invalid", e.StructField())
+			var tag string
+			switch e.Tag() {
+			case "min", "max":
+				tag = fmt.Sprintf(": check %v length ", e.StructField())
+			}
+
+			s := fmt.Sprintf("Input field %s is invalid%v", e.StructField(), tag)
 			v.Error = append(v.Error, s)
 		}
 

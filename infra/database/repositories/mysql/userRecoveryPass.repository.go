@@ -1,7 +1,7 @@
 package mysql
 
 import (
-	database "go-api/infra/database"
+	database "api-user/infra/database"
 	"log"
 )
 

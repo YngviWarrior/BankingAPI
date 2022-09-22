@@ -1,16 +1,17 @@
 package controllers
 
 import (
+	repository "api-user/infra/database/repositories/mysql"
+	usecase "api-user/usecases/signin"
 	"encoding/json"
-	repository "go-api/infra/database/repositories/mysql"
-	usecase "go-api/usecases/signin"
 	"log"
 	"net/http"
 )
 
 type inputSignInDto struct {
 	Email    string `json:"email" validate:"required,email"`
-	Password string `json:"password" validate:"required"`
+	Password string `json:"password" validate:"required,min=8"`
+	IP       string
 }
 
 func (c Controllers) HandlerSignIn(w http.ResponseWriter, r *http.Request) {
@@ -20,33 +21,37 @@ func (c Controllers) HandlerSignIn(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&input)
 
 	if err != nil {
-		log.Fatalf("SI01: %s", err)
+		log.Printf("SI01: %s", err)
 	}
 
-	errors := c.InputValidation(input)
-
-	if len(errors) > 0 {
-		w.Write(errors)
+	if !c.InputValidation(w, input) {
 		return
 	}
 
-	usecaseDto := usecase.InputSignInDto(input)
+	input.IP = r.RemoteAddr
+	usecaseInputDto := usecase.InputSignInDto(input)
 
 	var repoInterface repository.UserRepositoryInterface = &repository.UserRepository{}
 	var useCase = usecase.SignInUsecase{}
 	useCase.UserRepository = repoInterface
 
-	output := useCase.SignIn(usecaseDto)
-
 	var send outputControllerDto
-	send.Status = 1
-	send.Message = "Success"
-	send.Data = output
+	output, err := useCase.SignIn(usecaseInputDto)
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		send.Status = 0
+		send.Errors = err.Error()
+	} else {
+		send.Status = 1
+		send.Message = "Success"
+		send.Data = output
+	}
 
 	jsonResp, err := json.Marshal(send)
 
 	if err != nil {
-		log.Fatalf("SI02: %s", err)
+		log.Panicf("SI02: %s", err)
 	}
 
 	w.Write(jsonResp)

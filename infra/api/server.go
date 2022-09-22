@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 
-	controllers "go-api/controllers"
+	controllers "api-user/controllers"
 
 	"github.com/gorilla/mux"
 )
@@ -15,7 +15,7 @@ func InitServer() {
 
 	var controllersInterface controllers.ControllerInterface = controllers.Controllers{}
 
-	r.HandleFunc("/", controllersInterface.HandlerHome).Methods("GET")
+	r.HandleFunc("/public/home", controllersInterface.HandlerHome).Methods("GET")
 	r.HandleFunc("/public/signin", controllersInterface.HandlerSignIn).Methods("GET")
 	r.HandleFunc("/public/signup", controllersInterface.HandlerSignUp).Methods("POST")
 	r.HandleFunc("/public/recoverpassword", controllersInterface.HandlerPassRecovery).Methods("POST")

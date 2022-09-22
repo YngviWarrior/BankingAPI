@@ -1,16 +1,24 @@
 package controllers
 
 import (
+	repository "api-user/infra/database/repositories/mock"
+	usecases "api-user/usecases/home"
 	"encoding/json"
-	repository "go-api/infra/database/repositories/mock"
-	usecases "go-api/usecases/home"
 	"log"
 	"net/http"
 )
 
+var needAuth bool = true
+
 type inputHomeDto struct{}
 
 func (Controllers) HandlerHome(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	if needAuth && !authValidate(w, r) {
+		return
+	}
+
 	var homeRepository repository.MockRepositoryInterface = repository.MockRepository{}
 	var homeUseCase = usecases.HomeUseCase{}
 	homeUseCase.HomeRepository = homeRepository
@@ -20,6 +28,7 @@ func (Controllers) HandlerHome(w http.ResponseWriter, r *http.Request) {
 	var send outputControllerDto
 	send.Status = 1
 	send.Message = "Success"
+	send.Errors = nil
 	send.Data = output
 
 	jsonResp, err := json.Marshal(send)

@@ -1,14 +1,15 @@
 package controllers
 
 import (
+	"api-user/infra/jwt"
+	validate "api-user/infra/validator"
 	"encoding/json"
-	validate "go-api/infra/validator"
 	"log"
 	"net/http"
 )
 
 // import(
-// signinController "go-api/controllers/signin"
+// signinController "api-user/controllers/signin"
 // )
 
 // type inputControllerDto struct{}
@@ -25,28 +26,49 @@ type Controllers struct{}
 type ControllerInterface interface {
 	HandlerHome(w http.ResponseWriter, r *http.Request)
 	HandlerSignIn(w http.ResponseWriter, r *http.Request)
-	HandlerSignUp(w http.ResponseWriter, r *http.Request)
-	HandlerPassRecovery(w http.ResponseWriter, r *http.Request)
 }
 
-func (c Controllers) InputValidation(input any) (r []byte) {
+func authValidate(w http.ResponseWriter, r *http.Request) bool {
+	var send outputControllerDto
+	var jwtInterface jwt.JwtInterface = &jwt.Jwt{}
+	err := jwtInterface.VerifyJWT(w, r)
+
+	if err != nil {
+		send.Status = 0
+		send.Errors = err.Error()
+
+		jsonResp, err := json.Marshal(send)
+
+		if err != nil {
+			log.Fatalf("Error in Json Marshal. %s", err)
+		}
+
+		w.Write(jsonResp)
+		return false
+	}
+
+	return true
+}
+
+func (c Controllers) InputValidation(w http.ResponseWriter, input any) bool {
 	var send outputControllerDto
 	var validator validate.ValidatorInterface = validate.Validator{}
 	errors := validator.InputValidator(input)
 
 	if len(errors) > 0 {
 		send.Status = 0
-		send.Message = "Error"
 		send.Errors = errors
 
 		resp, err := json.Marshal(send)
 
 		if err != nil {
-			log.Fatalf("SI02: %s", err)
+			log.Panic("SI02: %s", err)
 		}
 
-		return resp
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(resp))
+		return false
 	}
 
-	return
+	return true
 }
