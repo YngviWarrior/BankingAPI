@@ -8,14 +8,14 @@ import (
 	"net/http"
 )
 
-var needAuth bool = true
-
 type inputHomeDto struct{}
 
 func (Controllers) HandlerHome(w http.ResponseWriter, r *http.Request) {
+	var needAuth bool = true
 	w.Header().Set("Content-Type", "application/json")
 
-	if needAuth && !authValidate(w, r) {
+	_, ok := authValidate(w, r)
+	if needAuth && !ok {
 		return
 	}
 

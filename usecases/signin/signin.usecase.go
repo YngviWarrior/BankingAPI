@@ -13,7 +13,7 @@ type SignInUsecase struct {
 }
 
 func (s *SignInUsecase) SignIn(input InputSignInDto) (output OutputSignInDto, err error) {
-	user := s.UserRepository.FindByEmail(input.Email)
+	user := s.UserRepository.FindByColumn("email", input.Email)
 	encPass := utils.EncryptPassHS256(input.Password)
 
 	if (user == userEntity.User{}) || encPass != user.Senha {
@@ -22,7 +22,7 @@ func (s *SignInUsecase) SignIn(input InputSignInDto) (output OutputSignInDto, er
 	}
 
 	var jwtInterface jwt.JwtInterface = &jwt.Jwt{}
-	token, err := jwtInterface.GenerateJWT(input.IP)
+	token, err := jwtInterface.GenerateJWT(user.Id, user.Admin, input.IP)
 
 	if err != nil {
 		err = errors.New("internal error")

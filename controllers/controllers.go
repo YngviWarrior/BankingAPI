@@ -28,10 +28,10 @@ type ControllerInterface interface {
 	HandlerSignIn(w http.ResponseWriter, r *http.Request)
 }
 
-func authValidate(w http.ResponseWriter, r *http.Request) bool {
+func authValidate(w http.ResponseWriter, r *http.Request) (uint64, bool) {
 	var send outputControllerDto
 	var jwtInterface jwt.JwtInterface = &jwt.Jwt{}
-	err := jwtInterface.VerifyJWT(w, r)
+	userId, err := jwtInterface.VerifyJWT(w, r)
 
 	if err != nil {
 		send.Status = 0
@@ -44,10 +44,10 @@ func authValidate(w http.ResponseWriter, r *http.Request) bool {
 		}
 
 		w.Write(jsonResp)
-		return false
+		return 0, false
 	}
 
-	return true
+	return userId, true
 }
 
 func (c Controllers) InputValidation(w http.ResponseWriter, input any) bool {
