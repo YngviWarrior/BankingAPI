@@ -13,13 +13,14 @@ type UserRepository struct{}
 type UserRepositoryInterface interface {
 	FindByColumn(column string, value any) (u user.User)
 	Create(user.User) user.User
-	UpdateByColumn(field []string, fieldValue []any, column []string, values []any) bool
+	UpdateByColumn(updateFields []string, updatefieldValues []any, wherecolumns []string, wherevalues []any, paginationValues []any, order string) bool
 }
 
-func (*UserRepository) UpdateByColumn(field []string, fieldValue []any, column []string, values []any) bool {
+func (*UserRepository) UpdateByColumn(updateFields []string, updatefieldValues []any, wherecolumns []string, wherevalues []any, paginationValues []any, order string) bool {
 	conn := database.GetConnection()
 
-	updates, wheres := utils.FormatUpdateQuery(field, fieldValue, column, values)
+	_, wheres, updates := utils.QueryFormatter(updateFields, updatefieldValues, wherecolumns, wherevalues, paginationValues, order)
+
 	query := `UPDATE usuarios SET ` + updates + ` WHERE ` + wheres
 
 	res, err := conn.Exec(query)
