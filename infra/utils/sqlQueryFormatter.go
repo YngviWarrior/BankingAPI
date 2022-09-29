@@ -30,17 +30,20 @@ func QueryFormatWheres(column []string, values []any) string {
 	for i, v := range column {
 		for j, val := range values {
 			if i == j {
+				if i != 0 {
+					wheres += "AND "
+				}
 				t := reflect.TypeOf(val).Kind()
 				if t == reflect.String {
-					wheres += fmt.Sprintf(`%v = "%v",`, v, val)
+					wheres += fmt.Sprintf(`%v = "%v"`, v, val)
 				} else {
-					wheres += fmt.Sprintf(`%v = %v,`, v, val)
+					wheres += fmt.Sprintf(`%v = %v`, v, val)
 				}
 			}
 		}
 	}
 
-	wheres = wheres[:len(wheres)-1]
+	// wheres = wheres[:len(wheres)-1]
 
 	return wheres
 }

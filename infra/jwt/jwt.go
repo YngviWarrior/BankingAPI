@@ -62,6 +62,10 @@ func (*Jwt) VerifyJWT(writer http.ResponseWriter, request *http.Request) (userId
 		return secretKey, nil
 	})
 
+	if err != nil || token == nil {
+		return 0, err
+	}
+
 	if claims, ok := token.Claims.(*Claims); ok && token.Valid {
 		userId = claims.Data.Id
 	}
