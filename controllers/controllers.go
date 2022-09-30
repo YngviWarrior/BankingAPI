@@ -50,9 +50,9 @@ func authValidate(w http.ResponseWriter, r *http.Request) (uint64, bool) {
 	return userId, true
 }
 
-func (c Controllers) InputValidation(w http.ResponseWriter, input any) bool {
+func (c *Controllers) InputValidation(w http.ResponseWriter, input any) bool {
 	var send outputControllerDto
-	var validator validate.ValidatorInterface = validate.Validator{}
+	var validator validate.ValidatorInterface = &validate.Validator{}
 	errors := validator.InputValidator(input)
 
 	if len(errors) > 0 {

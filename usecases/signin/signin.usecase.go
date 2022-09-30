@@ -12,7 +12,7 @@ type SignInUsecase struct {
 	UserRepository repository.UserRepositoryInterface
 }
 
-func (s *SignInUsecase) SignIn(input InputSignInDto) (output OutputSignInDto, err error) {
+func (s *SignInUsecase) SignIn(input *InputSignInDto) (output OutputSignInDto, err error) {
 	user := s.UserRepository.FindByColumn("email", input.Email)
 	encPass := utils.EncryptPassHS256(input.Password)
 

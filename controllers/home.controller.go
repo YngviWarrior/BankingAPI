@@ -10,7 +10,7 @@ import (
 
 type inputHomeDto struct{}
 
-func (Controllers) HandlerHome(w http.ResponseWriter, r *http.Request) {
+func (*Controllers) HandlerHome(w http.ResponseWriter, r *http.Request) {
 	var needAuth bool = true
 	w.Header().Set("Content-Type", "application/json")
 

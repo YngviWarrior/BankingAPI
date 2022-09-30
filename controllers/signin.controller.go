@@ -14,14 +14,26 @@ type inputSignInDto struct {
 	IP       string
 }
 
-func (c Controllers) HandlerSignIn(w http.ResponseWriter, r *http.Request) {
+func (c *Controllers) HandlerSignIn(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var input inputSignInDto
+	var send outputControllerDto
 
 	err := json.NewDecoder(r.Body).Decode(&input)
 
 	if err != nil {
 		log.Printf("SI01: %s", err)
+		w.WriteHeader(http.StatusInternalServerError)
+
+		send.Errors = "invalid primitive type"
+		jsonResp, err := json.Marshal(send)
+
+		if err != nil {
+			log.Fatalf("SI02: %s", err)
+		}
+
+		w.Write(jsonResp)
+		return
 	}
 
 	if !c.InputValidation(w, input) {
@@ -35,8 +47,7 @@ func (c Controllers) HandlerSignIn(w http.ResponseWriter, r *http.Request) {
 	var useCase = usecase.SignInUsecase{}
 	useCase.UserRepository = repoInterface
 
-	var send outputControllerDto
-	output, err := useCase.SignIn(usecaseInputDto)
+	output, err := useCase.SignIn(&usecaseInputDto)
 
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)

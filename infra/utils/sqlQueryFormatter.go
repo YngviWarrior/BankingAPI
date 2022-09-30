@@ -86,7 +86,7 @@ func QueryFormatter(field []string, fieldValue []any, columns []string, values [
 	}
 
 	if len(field) > 0 && len(fieldValue) > 0 && len(field) == len(fieldValue) {
-		updates = QueryFormatWheres(field, fieldValue)
+		updates = QueryFormatUpdates(field, fieldValue)
 	} else if len(field) != len(fieldValue) {
 		errList = append(errList, errors.New("wrong parameters at query updates formatter"))
 	}

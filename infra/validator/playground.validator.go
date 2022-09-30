@@ -6,7 +6,7 @@ import (
 	"github.com/go-playground/validator"
 )
 
-func (v Validator) InputValidator(obj any) []string {
+func (v *Validator) InputValidator(obj any) []string {
 	valid := validator.New()
 
 	err := valid.Struct(obj)

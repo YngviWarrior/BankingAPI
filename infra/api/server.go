@@ -13,7 +13,7 @@ import (
 func InitServer() {
 	r := mux.NewRouter()
 
-	var controllersInterface controllers.ControllerInterface = controllers.Controllers{}
+	var controllersInterface controllers.ControllerInterface = &controllers.Controllers{}
 
 	r.HandleFunc("/public/home", controllersInterface.HandlerHome).Methods("GET")
 	r.HandleFunc("/public/signin", controllersInterface.HandlerSignIn).Methods("GET")
