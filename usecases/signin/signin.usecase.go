@@ -22,14 +22,15 @@ func (s *SignInUsecase) SignIn(input *InputSignInDto) (output OutputSignInDto, e
 	}
 
 	var jwtInterface jwt.JwtInterface = &jwt.Jwt{}
-	token, err := jwtInterface.GenerateJWT(user.Id, user.Admin, input.IP)
+	accessToken, refreshToken, err := jwtInterface.GenerateJWT(user.Id, user.Admin, input.IP)
 
 	if err != nil {
 		err = errors.New("internal error")
 		return
 	}
 
-	output.Token = token
+	output.AccessToken = accessToken
+	output.RefreshToken = refreshToken
 
 	return
 }
