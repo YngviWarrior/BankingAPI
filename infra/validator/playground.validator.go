@@ -2,12 +2,29 @@ package validator
 
 import (
 	"fmt"
+	"log"
+	"time"
 
 	"github.com/go-playground/validator"
 )
 
+type Date struct {
+	DateField string `validate:"date"`
+}
+
 func (v *Validator) InputValidator(obj any) []string {
 	valid := validator.New()
+
+	valid.RegisterValidation("date", func(fl validator.FieldLevel) bool {
+		date := fl.Field()
+		_, err := time.Parse("2006-01-02", date.String())
+		if err != nil {
+			log.Println(err)
+			return false
+		}
+
+		return true
+	}, false)
 
 	err := valid.Struct(obj)
 

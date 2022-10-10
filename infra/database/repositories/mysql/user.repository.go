@@ -2,8 +2,8 @@ package mysql
 
 import (
 	user "api-go/core/entities/user"
-	database "api-go/infra/database"
 	"api-go/infra/utils"
+	"database/sql"
 
 	"log"
 )
@@ -11,41 +11,27 @@ import (
 type UserRepository struct{}
 
 type UserRepositoryInterface interface {
-	FindByColumn(column string, value any) (u user.User)
-	Create(user.User) user.User
-	UpdateByColumn(updateFields []string, updatefieldValues []any, wherecolumns []string, wherevalues []any, paginationValues []any, order string) bool
+	FindByColumn(tx *sql.Tx, column string, value any) (u user.User)
+	Create(tx *sql.Tx, u user.User) user.User
+	UpdateDynamically(tx *sql.Tx, updateFields []string, updatefieldValues []any, wherecolumns []string, wherevalues []any, paginationValues []any, order string) bool
 }
 
-func (*UserRepository) UpdateByColumn(updateFields []string, updatefieldValues []any, wherecolumns []string, wherevalues []any, paginationValues []any, order string) bool {
-	conn := database.GetConnection()
-
+func (*UserRepository) UpdateDynamically(tx *sql.Tx, updateFields []string, updatefieldValues []any, wherecolumns []string, wherevalues []any, paginationValues []any, order string) bool {
 	_, wheres, updates := utils.QueryFormatter(updateFields, updatefieldValues, wherecolumns, wherevalues, paginationValues, order)
+	query := `UPDATE usuarios SET ` + updates + wheres
 
-	query := `UPDATE usuarios SET ` + updates + ` WHERE ` + wheres
-
-	res, err := conn.Exec(query)
+	_, err := tx.Exec(query)
 
 	if err != nil {
 		log.Println("URUBC 01: ", err)
 		return false
 	}
 
-	defer conn.Close()
-
-	affcRows, _ := res.RowsAffected()
-
-	if affcRows == 0 {
-		log.Println("URUBC 02")
-		return false
-	}
-
 	return true
 }
 
-func (*UserRepository) UpdateSenha(password string, userId uint64) bool {
-	conn := database.GetConnection()
-
-	res, err := conn.Exec(`
+func (*UserRepository) UpdateSenha(tx *sql.Tx, password string, userId uint64) bool {
+	res, err := tx.Exec(`
 		UPDATE usuarios SET senha = ? WHERE id = ?
 	`, password, userId)
 
@@ -53,8 +39,6 @@ func (*UserRepository) UpdateSenha(password string, userId uint64) bool {
 		log.Println("URUS 01: ", err)
 		return false
 	}
-
-	defer conn.Close()
 
 	affcRows, _ := res.RowsAffected()
 
@@ -66,10 +50,9 @@ func (*UserRepository) UpdateSenha(password string, userId uint64) bool {
 	return true
 }
 
-func (*UserRepository) UpdateEmailVerify(userId uint64) bool {
-	conn := database.GetConnection()
+func (*UserRepository) UpdateEmailVerify(tx *sql.Tx, userId uint64) bool {
 
-	res, err := conn.Exec(`
+	res, err := tx.Exec(`
 		UPDATE usuarios SET email_verificado = 1 WHERE id = ?
 	`, userId)
 
@@ -77,8 +60,6 @@ func (*UserRepository) UpdateEmailVerify(userId uint64) bool {
 		log.Println("URC 01: ", err)
 		return false
 	}
-
-	defer conn.Close()
 
 	affcRows, _ := res.RowsAffected()
 
@@ -90,10 +71,9 @@ func (*UserRepository) UpdateEmailVerify(userId uint64) bool {
 	return true
 }
 
-func (*UserRepository) Create(user user.User) (u user.User) {
-	conn := database.GetConnection()
+func (*UserRepository) Create(tx *sql.Tx, user user.User) (u user.User) {
 
-	res, err := conn.Exec(`
+	res, err := tx.Exec(`
 		INSERT INTO usuarios(hash, email, senha, id_indicador, bonus_indication_percent, taxa_trade_percentual, data_cadastro) 
 		VALUES(?, ?, ?, ?, ?, ?, ?)
 	`, user.Hash, user.Email.String, user.Senha, user.IdIndicador, user.BonusIndicationPercent.Float64, user.TaxaTradePercentual, user.DataCadastro.String)
@@ -103,8 +83,6 @@ func (*UserRepository) Create(user user.User) (u user.User) {
 		return
 	}
 
-	defer conn.Close()
-
 	lastId, _ := res.LastInsertId()
 
 	if lastId == 0 {
@@ -112,7 +90,7 @@ func (*UserRepository) Create(user user.User) (u user.User) {
 		return
 	}
 
-	err = conn.QueryRow(`
+	err = tx.QueryRow(`
 		SELECT id, usuario, senha, hash, id_indicador, data_cadastro, pin, email, admin, saldo, token, total_bonus, total_sacado, 
 			total_deposito_btc, email_verificado, token_address, api_key, documento_verificado, genre, fullname, address, city, country_id, country_id_2,
 			zip_code, phone, taxa_trade_percentual, birth_date, bot, id_qualification, approved_manager_status, trader_active, trader_percent_usage,
@@ -133,10 +111,9 @@ func (*UserRepository) Create(user user.User) (u user.User) {
 	return
 }
 
-func (*UserRepository) FindByColumn(colunm string, value any) (u user.User) {
-	conn := database.GetConnection()
+func (*UserRepository) FindByColumn(tx *sql.Tx, colunm string, value any) (u user.User) {
 
-	err := conn.QueryRow(`
+	err := tx.QueryRow(`
 		SELECT id, usuario, senha, hash, id_indicador, data_cadastro, pin, email, admin, saldo, token, total_bonus, total_sacado, 
 			total_deposito_btc, email_verificado, token_address, api_key, documento_verificado, genre, fullname, address, city, country_id, country_id_2,
 			zip_code, phone, taxa_trade_percentual, birth_date, bot, id_qualification, approved_manager_status, trader_active, trader_percent_usage,
@@ -153,8 +130,6 @@ func (*UserRepository) FindByColumn(colunm string, value any) (u user.User) {
 	if err != nil {
 		log.Println("URFBI 01: ", err)
 	}
-
-	defer conn.Close()
 
 	return
 }

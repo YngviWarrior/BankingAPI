@@ -8,7 +8,7 @@ import (
 )
 
 func QueryFormatPagination(values []any) (pagination string, err error) {
-	pagination = "LIMIT "
+	pagination = " LIMIT "
 
 	for _, val := range values {
 		t := reflect.TypeOf(val).Kind()
@@ -26,12 +26,12 @@ func QueryFormatPagination(values []any) (pagination string, err error) {
 }
 
 func QueryFormatWheres(column []string, values []any) string {
-	var wheres string = "WHERE "
+	var wheres string = " WHERE "
 	for i, v := range column {
 		for j, val := range values {
 			if i == j {
 				if i != 0 {
-					wheres += "AND "
+					wheres += " AND "
 				}
 				t := reflect.TypeOf(val).Kind()
 				if t == reflect.String {

@@ -9,14 +9,18 @@ import (
 )
 
 type SignInUsecase struct {
+	Repositories   repository.RepositoriesInterface
 	UserRepository repository.UserRepositoryInterface
 }
 
 func (s *SignInUsecase) SignIn(input *InputSignInDto) (output OutputSignInDto, err error) {
-	user := s.UserRepository.FindByColumn("email", input.Email)
+	tx := s.Repositories.CreateTransaction()
+
+	user := s.UserRepository.FindByColumn(tx, "email", input.Email)
 	encPass := utils.EncryptPassHS256(input.Password)
 
 	if (user == userEntity.User{}) || encPass != user.Senha {
+		tx.Rollback()
 		err = errors.New("invalid email or password")
 		return
 	}
@@ -25,6 +29,7 @@ func (s *SignInUsecase) SignIn(input *InputSignInDto) (output OutputSignInDto, e
 	accessToken, refreshToken, err := jwtInterface.GenerateJWT(user.Id, user.Admin, input.IP)
 
 	if err != nil {
+		tx.Rollback()
 		err = errors.New("internal error")
 		return
 	}
@@ -32,5 +37,6 @@ func (s *SignInUsecase) SignIn(input *InputSignInDto) (output OutputSignInDto, e
 	output.AccessToken = accessToken
 	output.RefreshToken = refreshToken
 
+	tx.Commit()
 	return
 }
