@@ -34,6 +34,8 @@ func (v *Validator) InputValidator(obj any) []string {
 			switch e.Tag() {
 			case "min", "max":
 				tag = fmt.Sprintf(": check %v length ", e.StructField())
+			case "required":
+				tag = fmt.Sprintf(": %v is mandatory", e.StructField())
 			}
 
 			s := fmt.Sprintf("Input field %s is invalid%v", e.StructField(), tag)
