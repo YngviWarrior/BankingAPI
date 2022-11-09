@@ -15,10 +15,10 @@ import (
 // type inputControllerDto struct{}
 
 type outputControllerDto struct {
-	Status  any    `json:"status,omitempty"`
-	Message string `json:"message,omitempty"`
-	Data    any    `json:"data,omitempty"`
-	Errors  any    `json:"errors,omitempty"`
+	Status  int64    `json:"status,omitempty"`
+	Message string   `json:"message,omitempty"`
+	Data    any      `json:"data,omitempty"`
+	Errors  []string `json:"errors,omitempty"`
 }
 
 type Controllers struct{}
@@ -35,7 +35,7 @@ func authValidate(w http.ResponseWriter, r *http.Request) (uint64, bool) {
 
 	if err != nil {
 		send.Status = 0
-		send.Errors = err.Error()
+		send.Errors = append(send.Errors, err.Error())
 
 		jsonResp, err := json.Marshal(send)
 

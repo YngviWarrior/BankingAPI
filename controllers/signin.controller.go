@@ -25,7 +25,7 @@ func (c *Controllers) HandlerSignIn(w http.ResponseWriter, r *http.Request) {
 		log.Printf("SI01: %s", err)
 		w.WriteHeader(http.StatusInternalServerError)
 
-		send.Errors = "invalid primitive type"
+		send.Errors = append(send.Errors, "invalid primitive type")
 		jsonResp, err := json.Marshal(send)
 
 		if err != nil {
@@ -55,7 +55,7 @@ func (c *Controllers) HandlerSignIn(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		send.Status = 0
-		send.Errors = err.Error()
+		send.Errors = append(send.Errors, err.Error())
 	} else {
 		send.Status = 1
 		send.Message = "Success"
