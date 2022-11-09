@@ -62,7 +62,7 @@ func (c *Controllers) InputValidation(w http.ResponseWriter, input any) bool {
 		resp, err := json.Marshal(send)
 
 		if err != nil {
-			log.Panic("SI02: %s", err)
+			log.Panic("SI02: ", err)
 		}
 
 		w.WriteHeader(http.StatusBadRequest)
