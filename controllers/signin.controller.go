@@ -9,9 +9,9 @@ import (
 )
 
 type inputSignInDto struct {
-	Email    string `json:"email" validate:"required,email"`
-	Password string `json:"password" validate:"required,min=8"`
-	IP       string
+	Email    *string `json:"email" validate:"required,email"`
+	Password *string `json:"password" validate:"required,min=8"`
+	IP       *string
 }
 
 func (c *Controllers) HandlerSignIn(w http.ResponseWriter, r *http.Request) {
@@ -40,8 +40,8 @@ func (c *Controllers) HandlerSignIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	input.IP = r.RemoteAddr
-	usecaseInputDto := usecase.InputSignInDto(input)
+	input.IP = &r.RemoteAddr
+	usecaseInputDto := usecase.InputSignInDto{Email: *input.Email, Password: *input.Password, IP: *input.IP}
 
 	var repoInterface repository.RepositoriesInterface = &repository.Repositories{}
 	var repoUserInterface repository.UserRepositoryInterface = &repository.UserRepository{}
