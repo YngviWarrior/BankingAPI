@@ -46,7 +46,8 @@ func CreateMysqlPool() *sql.DB {
 		log.Fatal("DC 01: ", err.Error())
 	}
 
-	db.SetConnMaxLifetime(time.Minute * 2)
+	db.SetConnMaxLifetime(time.Second * 30)
+	db.SetMaxIdleConns(500)
 
 	return db
 }

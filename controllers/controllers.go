@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"api-go/infra/database"
 	"api-go/infra/jwt"
 	validate "api-go/infra/validator"
 	"encoding/json"
@@ -15,7 +16,9 @@ type outputControllerDto struct {
 	Errors  []string `json:"errors,omitempty"`
 }
 
-type Controllers struct{}
+type Controllers struct {
+	DataBase *database.Database
+}
 
 type ControllerInterface interface {
 	HandlerHome(w http.ResponseWriter, r *http.Request)

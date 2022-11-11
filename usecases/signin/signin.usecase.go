@@ -16,7 +16,6 @@ type SignInUsecase struct {
 
 func (s *SignInUsecase) SignIn(input *InputSignInDto) (output OutputSignInDto, err error) {
 	tx, conn := s.Database.CreateConnection()
-	defer conn.Close()
 
 	user := s.UserRepository.FindByColumn(tx, "email", input.Email)
 	encPass := utils.EncryptPassHS256(input.Password)
@@ -40,5 +39,6 @@ func (s *SignInUsecase) SignIn(input *InputSignInDto) (output OutputSignInDto, e
 	output.RefreshToken = refreshToken
 
 	tx.Commit()
+	conn.Close()
 	return
 }

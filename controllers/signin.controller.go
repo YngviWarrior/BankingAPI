@@ -44,7 +44,7 @@ func (c *Controllers) HandlerSignIn(w http.ResponseWriter, r *http.Request) {
 	input.IP = &r.RemoteAddr
 	usecaseInputDto := usecase.InputSignInDto{Email: *input.Email, Password: *input.Password, IP: *input.IP}
 
-	var dbInterface database.DatabaseInterface = &database.Database{}
+	var dbInterface database.DatabaseInterface = c.DataBase
 	var repoUserInterface repository.UserRepositoryInterface = &repository.UserRepository{}
 	var useCase = usecase.SignInUsecase{}
 

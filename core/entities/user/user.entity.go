@@ -47,7 +47,7 @@ type User struct {
 	TotalLoseBalancePlay    float64         `json:"total_lose_balance_play"`
 	NomeDocumento           sql.NullString  `json:"nome_documento"`
 	ContaExcluida           sql.NullBool    `json:"conta_excluida"`
-	IdIdioma                sql.NullBool    `json:"id_idioma"`
+	IdIdioma                int64           `json:"id_idioma"`
 	Identity                sql.NullString  `json:"identity"`
 	IdentityUser            sql.NullString  `json:"identity_user"`
 }
