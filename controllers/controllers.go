@@ -8,12 +8,6 @@ import (
 	"net/http"
 )
 
-// import(
-// signinController "api-user/controllers/signin"
-// )
-
-// type inputControllerDto struct{}
-
 type outputControllerDto struct {
 	Status  int64    `json:"status,omitempty"`
 	Message string   `json:"message,omitempty"`

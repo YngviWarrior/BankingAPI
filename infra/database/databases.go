@@ -1,6 +1,7 @@
 package database
 
 import (
+	"context"
 	"database/sql"
 	"log"
 	"os"
@@ -9,19 +10,36 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-type Database struct{}
+type Database struct {
+	Pool *sql.DB
+}
 
 type DatabaseInterface interface {
-	CreateMysqlPool() *sql.DB
-	CreatePostgresPool() *sql.DB
+	CreatePool()
+	CreateConnection() (tx *sql.Tx, conn *sql.Conn)
 }
 
-func GetConnection() *sql.DB {
-	var db DatabaseInterface = &Database{}
-	return db.CreateMysqlPool()
+func (d *Database) CreatePool() {
+	d.Pool = CreateMysqlPool()
 }
 
-func (d *Database) CreateMysqlPool() *sql.DB {
+func (d *Database) CreateConnection() (tx *sql.Tx, conn *sql.Conn) {
+	ctx := context.TODO()
+
+	conn, err := d.Pool.Conn(ctx)
+	if err != nil {
+		log.Panicln("Conn Create: ", err)
+	}
+
+	tx, err = conn.BeginTx(ctx, &sql.TxOptions{})
+	if err != nil {
+		log.Panicln("TX Create: ", err)
+	}
+
+	return
+}
+
+func CreateMysqlPool() *sql.DB {
 	db, err := sql.Open("mysql", os.Getenv("DB"))
 
 	if err != nil {
@@ -29,13 +47,11 @@ func (d *Database) CreateMysqlPool() *sql.DB {
 	}
 
 	db.SetConnMaxLifetime(time.Minute * 2)
-	db.SetMaxOpenConns(10)
-	db.SetMaxIdleConns(10)
 
 	return db
 }
 
-func (d *Database) CreatePostgresPool() *sql.DB {
+func CreatePostgresPool() *sql.DB {
 	db, err := sql.Open("postgres", os.Getenv("DB"))
 
 	if err != nil {

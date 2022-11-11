@@ -6,11 +6,15 @@ import (
 	"os"
 
 	controllers "api-go/controllers"
+	"api-go/infra/database"
 
 	"github.com/gorilla/mux"
 )
 
 func InitServer() {
+	var database database.DatabaseInterface = &database.Database{}
+	database.CreatePool()
+
 	r := mux.NewRouter()
 
 	var controllersInterface controllers.ControllerInterface = &controllers.Controllers{}

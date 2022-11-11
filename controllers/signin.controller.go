@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"api-go/infra/database"
 	repository "api-go/infra/database/repositories/mysql"
 	usecase "api-go/usecases/signin"
 	"encoding/json"
@@ -43,11 +44,11 @@ func (c *Controllers) HandlerSignIn(w http.ResponseWriter, r *http.Request) {
 	input.IP = &r.RemoteAddr
 	usecaseInputDto := usecase.InputSignInDto{Email: *input.Email, Password: *input.Password, IP: *input.IP}
 
-	var repoInterface repository.RepositoriesInterface = &repository.Repositories{}
+	var dbInterface database.DatabaseInterface = &database.Database{}
 	var repoUserInterface repository.UserRepositoryInterface = &repository.UserRepository{}
 	var useCase = usecase.SignInUsecase{}
 
-	useCase.Repositories = repoInterface
+	useCase.Database = dbInterface
 	useCase.UserRepository = repoUserInterface
 
 	output, err := useCase.SignIn(&usecaseInputDto)

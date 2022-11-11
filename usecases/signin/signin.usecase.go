@@ -2,6 +2,7 @@ package signinUsecase
 
 import (
 	userEntity "api-go/core/entities/user"
+	"api-go/infra/database"
 	repository "api-go/infra/database/repositories/mysql"
 	"api-go/infra/jwt"
 	"api-go/infra/utils"
@@ -9,12 +10,13 @@ import (
 )
 
 type SignInUsecase struct {
-	Repositories   repository.RepositoriesInterface
+	Database       database.DatabaseInterface
 	UserRepository repository.UserRepositoryInterface
 }
 
 func (s *SignInUsecase) SignIn(input *InputSignInDto) (output OutputSignInDto, err error) {
-	tx := s.Repositories.CreateTransaction()
+	tx, conn := s.Database.CreateConnection()
+	defer conn.Close()
 
 	user := s.UserRepository.FindByColumn(tx, "email", input.Email)
 	encPass := utils.EncryptPassHS256(input.Password)
