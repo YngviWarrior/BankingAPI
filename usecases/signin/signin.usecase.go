@@ -22,6 +22,7 @@ func (s *SignInUsecase) SignIn(input *InputSignInDto) (output OutputSignInDto, e
 
 	if (user == userEntity.User{}) || encPass != user.Senha {
 		tx.Rollback()
+		conn.Close()
 		err = errors.New("invalid email or password")
 		return
 	}
@@ -31,6 +32,7 @@ func (s *SignInUsecase) SignIn(input *InputSignInDto) (output OutputSignInDto, e
 
 	if err != nil {
 		tx.Rollback()
+		conn.Close()
 		err = errors.New("internal error")
 		return
 	}
