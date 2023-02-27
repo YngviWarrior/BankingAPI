@@ -15,15 +15,16 @@ type Database struct {
 }
 
 type DatabaseInterface interface {
-	CreatePool()
-	CreateConnection() (tx *sql.Tx, conn *sql.Conn)
+	CreatePool(size int64)
+	CreateConnection() (conn *sql.Conn)
+	CreateTransaction(ctx *context.Context, conn *sql.Conn) (tx *sql.Tx)
 }
 
-func (d *Database) CreatePool() {
-	d.Pool = CreateMysqlPool()
+func (d *Database) CreatePool(size int64) {
+	d.Pool = CreateMysqlPool(size)
 }
 
-func (d *Database) CreateConnection() (tx *sql.Tx, conn *sql.Conn) {
+func (d *Database) CreateConnection() (conn *sql.Conn) {
 	ctx := context.TODO()
 
 	conn, err := d.Pool.Conn(ctx)
@@ -31,7 +32,11 @@ func (d *Database) CreateConnection() (tx *sql.Tx, conn *sql.Conn) {
 		log.Panicln("Conn Create: ", err)
 	}
 
-	tx, err = conn.BeginTx(ctx, &sql.TxOptions{})
+	return
+}
+
+func (d *Database) CreateTransaction(ctx *context.Context, conn *sql.Conn) (tx *sql.Tx) {
+	tx, err := conn.BeginTx(*ctx, &sql.TxOptions{})
 	if err != nil {
 		log.Panicln("TX Create: ", err)
 	}
@@ -39,29 +44,18 @@ func (d *Database) CreateConnection() (tx *sql.Tx, conn *sql.Conn) {
 	return
 }
 
-func CreateMysqlPool() *sql.DB {
-	db, err := sql.Open("mysql", os.Getenv("DB"))
+func CreateMysqlPool(size int64) *sql.DB {
+	var db *sql.DB
+	var err error
+
+	db, err = sql.Open("mysql", os.Getenv("DB"))
 
 	if err != nil {
 		log.Fatal("DC 01: ", err.Error())
 	}
 
-	db.SetConnMaxLifetime(time.Second * 30)
-	db.SetMaxIdleConns(500)
-
-	return db
-}
-
-func CreatePostgresPool() *sql.DB {
-	db, err := sql.Open("postgres", os.Getenv("DB"))
-
-	if err != nil {
-		log.Fatal("DC 01: ", err.Error())
-	}
-
-	db.SetConnMaxLifetime(time.Minute * 2)
-	db.SetMaxOpenConns(10)
-	db.SetMaxIdleConns(10)
+	db.SetConnMaxLifetime(time.Second * 5)
+	db.SetMaxOpenConns(int(size))
 
 	return db
 }

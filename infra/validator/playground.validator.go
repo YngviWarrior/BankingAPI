@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/go-playground/validator"
+	"github.com/klassmann/cpfcnpj"
 )
 
 type Date struct {
@@ -14,6 +15,24 @@ type Date struct {
 
 func (v *Validator) InputValidator(obj any) []string {
 	valid := validator.New()
+
+	valid.RegisterValidation("cpf", func(fl validator.FieldLevel) bool {
+		cpf := fl.Field().String()
+
+		if len(cpf) != 14 {
+			log.Println("wrong document format")
+			return false
+		}
+
+		isValid := cpfcnpj.NewCPF(cpf)
+
+		if !isValid.IsValid() {
+			log.Println("invalid document")
+			return false
+		}
+
+		return true
+	}, false)
 
 	valid.RegisterValidation("date", func(fl validator.FieldLevel) bool {
 		date := fl.Field()

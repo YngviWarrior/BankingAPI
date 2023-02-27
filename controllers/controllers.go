@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"api-go/infra/database"
-	"api-go/infra/jwt"
 	validate "api-go/infra/validator"
 	"encoding/json"
 	"log"
@@ -10,7 +9,7 @@ import (
 )
 
 type outputControllerDto struct {
-	Status  int64    `json:"status,omitempty"`
+	Status  int64    `json:"status"`
 	Message string   `json:"message,omitempty"`
 	Data    any      `json:"data,omitempty"`
 	Errors  []string `json:"errors,omitempty"`
@@ -21,30 +20,15 @@ type Controllers struct {
 }
 
 type ControllerInterface interface {
-	HandlerHome(w http.ResponseWriter, r *http.Request)
-	HandlerSignIn(w http.ResponseWriter, r *http.Request)
-}
-
-func authValidate(w http.ResponseWriter, r *http.Request) (uint64, bool) {
-	var send outputControllerDto
-	var jwtInterface jwt.JwtInterface = &jwt.Jwt{}
-	userId, err := jwtInterface.VerifyJWT(w, r)
-
-	if err != nil {
-		send.Status = 0
-		send.Errors = append(send.Errors, err.Error())
-
-		jsonResp, err := json.Marshal(send)
-
-		if err != nil {
-			log.Fatalf("Error in Json Marshal. %s", err)
-		}
-
-		w.Write(jsonResp)
-		return 0, false
-	}
-
-	return userId, true
+	HandlerCreateHolder(w http.ResponseWriter, r *http.Request)
+	HandlerVerifyHolder(w http.ResponseWriter, r *http.Request)
+	HandlerDeleteHolder(w http.ResponseWriter, r *http.Request)
+	HandlerCreateAccount(w http.ResponseWriter, r *http.Request)
+	HandlerFindAccount(w http.ResponseWriter, r *http.Request)
+	HandlerDeleteAccount(w http.ResponseWriter, r *http.Request)
+	HandlerBlockAccount(w http.ResponseWriter, r *http.Request)
+	HandlerTransactionAccount(w http.ResponseWriter, r *http.Request)
+	HandlerListStatement(w http.ResponseWriter, r *http.Request)
 }
 
 func (c *Controllers) InputValidation(w http.ResponseWriter, input any) bool {

@@ -2,22 +2,21 @@ package controllers
 
 import (
 	"api-go/infra/database"
-	repository "api-go/infra/database/repositories/mysql"
-	usecase "api-go/usecases/signin"
+	repository "api-go/infra/database/repositories/mysqlRepositories"
+	usecase "api-go/usecases/account/accountFind"
 	"encoding/json"
 	"log"
 	"net/http"
 )
 
-type inputSignInDto struct {
-	Email    *string `json:"email" validate:"required,email"`
-	Password *string `json:"password" validate:"required,min=8"`
-	IP       *string
+type inputFindAccountDto struct {
+	Agency *string `json:"agency" validate:"required"`
+	Number *string `json:"number" validate:"required"`
 }
 
-func (c *Controllers) HandlerSignIn(w http.ResponseWriter, r *http.Request) {
+func (c *Controllers) HandlerFindAccount(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	var input inputSignInDto
+	var input inputFindAccountDto
 	var send outputControllerDto
 
 	err := json.NewDecoder(r.Body).Decode(&input)
@@ -26,7 +25,7 @@ func (c *Controllers) HandlerSignIn(w http.ResponseWriter, r *http.Request) {
 		log.Printf("SI01: %s", err)
 		w.WriteHeader(http.StatusInternalServerError)
 
-		send.Errors = append(send.Errors, "invalid primitive type")
+		send.Errors = append(send.Errors, "body is invalid")
 		jsonResp, err := json.Marshal(send)
 
 		if err != nil {
@@ -41,17 +40,16 @@ func (c *Controllers) HandlerSignIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	input.IP = &r.RemoteAddr
-	usecaseInputDto := usecase.InputSignInDto{Email: *input.Email, Password: *input.Password, IP: *input.IP}
+	useCaseInputDto := usecase.InputFindAccountDto{Agency: *input.Agency, Number: *input.Number}
 
 	var dbInterface database.DatabaseInterface = c.DataBase
-	var repoUserInterface repository.UserRepositoryInterface = &repository.UserRepository{}
-	var useCase = usecase.SignInUsecase{}
+	var accountInterface repository.AccountRepositoryInterface = &repository.AccountRepository{}
+	var useCase = usecase.FindAccountUseCase{}
 
 	useCase.Database = dbInterface
-	useCase.UserRepository = repoUserInterface
+	useCase.AccountRepository = accountInterface
 
-	output, err := useCase.SignIn(&usecaseInputDto)
+	output, err := useCase.FindAccount(&useCaseInputDto)
 
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)

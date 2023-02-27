@@ -20,17 +20,11 @@ func main() {
 
 	switch os.Getenv("ENVIROMENT") {
 	case "local":
+		loc, _ := time.LoadLocation("America/Sao_Paulo")
+		time.Local = loc
+
+		log.SetOutput(file)
 		log.SetOutput(os.Stdout)
-	case "production":
-		loc, _ := time.LoadLocation("America/Sao_Paulo")
-		time.Local = loc
-
-		log.SetOutput(file)
-	case "development":
-		loc, _ := time.LoadLocation("America/Sao_Paulo")
-		time.Local = loc
-
-		log.SetOutput(file)
 	}
 
 	if err != nil {
