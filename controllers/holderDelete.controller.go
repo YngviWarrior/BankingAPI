@@ -43,10 +43,16 @@ func (c *Controllers) HandlerDeleteHolder(w http.ResponseWriter, r *http.Request
 
 	var dbInterface database.DatabaseInterface = c.DataBase
 	var holderUserInterface repository.HolderRepositoryInterface = &repository.HolderRepository{}
+	var transactionTypeRepoInterface repository.TransactionTypeRepositoryInterface = &repository.TransactionTypeRepository{}
+	var accountRepoInterface repository.AccountRepositoryInterface = &repository.AccountRepository{}
+	var accountStatementRepoInterface repository.AccountStatementRepositoryInterface = &repository.AccountStatementRepository{}
 	var useCase = usecase.DeleteHolderUsecase{}
 
 	useCase.Database = dbInterface
 	useCase.HolderRepository = holderUserInterface
+	useCase.TransactionTypeRepository = transactionTypeRepoInterface
+	useCase.AccountRepository = accountRepoInterface
+	useCase.AccountStatementRepository = accountStatementRepoInterface
 
 	_, err = useCase.DeleteHolder(&useCaseInputDto)
 

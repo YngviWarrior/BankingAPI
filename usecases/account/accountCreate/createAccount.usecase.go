@@ -33,7 +33,13 @@ func (c *CreateAccountUsecase) CreateAccount(input *InputCreateAccountDto) (outp
 	h := c.HolderRepository.FindByColumn(nil, conn, "cpf", input.CPF)
 
 	if (h == holderEntity.Holder{}) {
-		err = fmt.Errorf("holder dont exists")
+		err = fmt.Errorf("holder dosent exists")
+		conn.Close()
+		return
+	}
+
+	if !h.Verified {
+		err = fmt.Errorf("holder is not verified")
 		conn.Close()
 		return
 	}

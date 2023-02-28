@@ -3,6 +3,7 @@ package mysql
 import (
 	holder "api-go/core/entities/holder"
 	"api-go/infra/database/repositories"
+	"api-go/infra/utils"
 	"database/sql"
 
 	"log"
@@ -14,6 +15,30 @@ type HolderRepositoryInterface interface {
 	FindByColumn(tx *sql.Tx, conn *sql.Conn, column string, value any) (u holder.Holder)
 	Create(tx *sql.Tx, conn *sql.Conn, u holder.Holder) bool
 	Verify(tx *sql.Tx, conn *sql.Conn, holderId uint64) bool
+	UpdateDynamically(tx *sql.Tx, conn *sql.Conn, updateFields []string, updatefieldValues []any, wherecolumns []string, wherevalues []any, paginationValues []any, order string) bool
+}
+
+func (*HolderRepository) UpdateDynamically(tx *sql.Tx, conn *sql.Conn, updateFields []string, updatefieldValues []any, wherecolumns []string, wherevalues []any, paginationValues []any, order string) bool {
+	_, wheres, updates := utils.QueryFormatter(updateFields, updatefieldValues, wherecolumns, wherevalues, paginationValues, order)
+	query := `UPDATE holder SET ` + updates + wheres
+
+	stmt, err := repositories.Prepare(tx, conn, query)
+
+	if err != nil {
+		log.Panic("HRUD 01: ", err)
+		return false
+	}
+
+	defer stmt.Close()
+
+	_, err = stmt.Exec()
+
+	if err != nil {
+		log.Println("HRUD 02: ", err)
+		return false
+	}
+
+	return true
 }
 
 func (*HolderRepository) Verify(tx *sql.Tx, conn *sql.Conn, holderId uint64) bool {
@@ -45,28 +70,6 @@ func (*HolderRepository) Verify(tx *sql.Tx, conn *sql.Conn, holderId uint64) boo
 	return true
 }
 
-func (h *HolderRepository) Delete(tx *sql.Tx, conn *sql.Conn, holderId uint64) bool {
-	query := `DELETE FROM holder WHERE holder = ?`
-
-	stmt, err := repositories.Prepare(tx, conn, query)
-
-	if err != nil {
-		log.Panic("HRD 01: ", err)
-		return false
-	}
-
-	defer stmt.Close()
-
-	_, err = stmt.Exec(holderId)
-
-	if err != nil {
-		log.Panic("HRD 02: ", err)
-		return false
-	}
-
-	return true
-}
-
 func (h *HolderRepository) Create(tx *sql.Tx, conn *sql.Conn, holder holder.Holder) bool {
 	query := `INSERT INTO holder(full_name, cpf) VALUES(?, ?)`
 
@@ -90,7 +93,7 @@ func (h *HolderRepository) Create(tx *sql.Tx, conn *sql.Conn, holder holder.Hold
 }
 
 func (*HolderRepository) FindByColumn(tx *sql.Tx, conn *sql.Conn, colunm string, value any) (u holder.Holder) {
-	query := `SELECT holder, full_name, cpf, verified FROM holder WHERE ` + colunm + ` = ?`
+	query := `SELECT holder, full_name, cpf, verified, activated FROM holder WHERE ` + colunm + ` = ?`
 
 	stmt, err := repositories.Prepare(tx, conn, query)
 
@@ -101,7 +104,7 @@ func (*HolderRepository) FindByColumn(tx *sql.Tx, conn *sql.Conn, colunm string,
 
 	defer stmt.Close()
 
-	err = stmt.QueryRow(value).Scan(&u.Holder, &u.FullName, &u.CPF, &u.Verified)
+	err = stmt.QueryRow(value).Scan(&u.Holder, &u.FullName, &u.CPF, &u.Verified, &u.Activated)
 
 	if err != nil {
 		log.Println("HRFBC 02: ", err)

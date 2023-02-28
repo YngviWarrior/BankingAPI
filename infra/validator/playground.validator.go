@@ -26,12 +26,7 @@ func (v *Validator) InputValidator(obj any) []string {
 
 		isValid := cpfcnpj.NewCPF(cpf)
 
-		if !isValid.IsValid() {
-			log.Println("invalid document")
-			return false
-		}
-
-		return true
+		return isValid.IsValid()
 	}, false)
 
 	valid.RegisterValidation("date", func(fl validator.FieldLevel) bool {

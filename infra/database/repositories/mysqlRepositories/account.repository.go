@@ -14,6 +14,7 @@ type AccountRepository struct{}
 type AccountRepositoryInterface interface {
 	Find(tx *sql.Tx, conn *sql.Conn, agency string, number any) (u account.AccountHolder)
 	FindByColumn(tx *sql.Tx, conn *sql.Conn, column string, value any) (u account.Account)
+	ListByColumn(tx *sql.Tx, conn *sql.Conn, column string, value any) (list []*account.Account)
 	Create(tx *sql.Tx, conn *sql.Conn, u account.Account) bool
 	Delete(tx *sql.Tx, conn *sql.Conn, accountId uint64) bool
 	UpdateDynamically(tx *sql.Tx, conn *sql.Conn, updateFields []string, updatefieldValues []any, wherecolumns []string, wherevalues []any, paginationValues []any, order string) bool
@@ -89,7 +90,7 @@ func (h *AccountRepository) Create(tx *sql.Tx, conn *sql.Conn, acc account.Accou
 func (*AccountRepository) Find(tx *sql.Tx, conn *sql.Conn, agency string, number any) (u account.AccountHolder) {
 	query := `
 	SELECT a.account, a.holder, a.agency, a.number, a.balance, a.activated, a.blocked,
-		h.full_name, h.cpf
+		h.full_name, h.cpf, h.verified, h.activated as holder_activated
 	FROM account a 
 	JOIN holder h ON a.holder = h.holder
 	WHERE a.agency = ? AND a.number = ?`
@@ -101,7 +102,7 @@ func (*AccountRepository) Find(tx *sql.Tx, conn *sql.Conn, agency string, number
 		return
 	}
 
-	err = stmt.QueryRow(agency, number).Scan(&u.Account, &u.Holder, &u.Agency, &u.Number, &u.Balance, &u.Activated, &u.Blocked, &u.HolderName, &u.HolderDoc)
+	err = stmt.QueryRow(agency, number).Scan(&u.Account, &u.Holder, &u.Agency, &u.Number, &u.Balance, &u.Activated, &u.Blocked, &u.HolderName, &u.HolderDoc, &u.HolderVerified, &u.HolderActivated)
 
 	switch {
 	case err == sql.ErrNoRows:
@@ -123,6 +124,8 @@ func (*AccountRepository) FindByColumn(tx *sql.Tx, conn *sql.Conn, colunm string
 		return
 	}
 
+	defer stmt.Close()
+
 	err = stmt.QueryRow(value).Scan(&u.Account, &u.Holder, &u.Agency, &u.Number, &u.Balance, &u.Activated, &u.Blocked)
 
 	switch {
@@ -130,6 +133,40 @@ func (*AccountRepository) FindByColumn(tx *sql.Tx, conn *sql.Conn, colunm string
 	case err != nil:
 		log.Panic("ARFBC 02: ", err)
 		return
+	}
+
+	return
+}
+
+func (*AccountRepository) ListByColumn(tx *sql.Tx, conn *sql.Conn, colunm string, value any) (list []*account.Account) {
+	query := `SELECT account, holder, agency, number, balance, activated, blocked FROM account WHERE ` + colunm + ` = ?`
+
+	stmt, err := repositories.Prepare(tx, conn, query)
+
+	if err != nil {
+		log.Println("ARLBC 01: ", err)
+		return
+	}
+
+	defer stmt.Close()
+
+	res, err := stmt.Query(value)
+
+	if err != nil {
+		log.Panic("ARLBC 02: ", err)
+		return
+	}
+
+	for res.Next() {
+		var u account.Account
+		err := res.Scan(&u.Account, &u.Holder, &u.Agency, &u.Number, &u.Balance, &u.Activated, &u.Blocked)
+
+		if err != nil {
+			log.Panic("ARLBC 03: ", err)
+			return
+		}
+
+		list = append(list, &u)
 	}
 
 	return

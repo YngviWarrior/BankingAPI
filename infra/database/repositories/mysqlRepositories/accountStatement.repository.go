@@ -14,7 +14,6 @@ type AccountStatementRepository struct{}
 type AccountStatementRepositoryInterface interface {
 	List(tx *sql.Tx, conn *sql.Conn, accountId uint64, dateStart, dateFinish string) (list []*accountStatement.AccountStatement)
 	Create(tx *sql.Tx, conn *sql.Conn, u accountStatement.AccountStatement) bool
-	Delete(tx *sql.Tx, conn *sql.Conn, accountId uint64) bool
 	UpdateDynamically(tx *sql.Tx, conn *sql.Conn, updateFields []string, updatefieldValues []any, wherecolumns []string, wherevalues []any, paginationValues []any, order string) bool
 }
 
@@ -35,28 +34,6 @@ func (*AccountStatementRepository) UpdateDynamically(tx *sql.Tx, conn *sql.Conn,
 
 	if err != nil {
 		log.Println("ASRUD 02: ", err)
-		return false
-	}
-
-	return true
-}
-
-func (h *AccountStatementRepository) Delete(tx *sql.Tx, conn *sql.Conn, AccountId uint64) bool {
-	query := `DELETE FROM account_statement WHERE account = ?`
-
-	stmt, err := repositories.Prepare(tx, conn, query)
-
-	if err != nil {
-		log.Panic("ASRD 01: ", err)
-		return false
-	}
-
-	defer stmt.Close()
-
-	_, err = stmt.Exec(AccountId)
-
-	if err != nil {
-		log.Panic("ASRD 02: ", err)
 		return false
 	}
 
