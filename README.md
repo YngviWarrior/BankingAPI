@@ -23,10 +23,10 @@
 
   Step 5: $ docker-compose down
 
-  <b>The Project is Ready ! Open your Postman</b>
-
 - Run the project
 
   $ docker-compose up -d
 
-MIT LICENSE
+<b>The Project is Ready ! Open your Postman</b>
+
+
