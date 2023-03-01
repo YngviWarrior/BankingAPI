@@ -98,7 +98,7 @@ func (c *TransactionAccountUsecase) TransactionAccount(input *InputTransactionAc
 			err = fmt.Errorf("your withdraw limit is already reached")
 			conn.Close()
 			return
-		} else if dailyWithdraw+input.Amount > WITHDRAW_THRESHOULD {
+		} else if (dailyWithdraw+input.Amount) > WITHDRAW_THRESHOULD || input.Amount > WITHDRAW_THRESHOULD {
 			err = fmt.Errorf("your withdraw limit is (%.f), you can only withdraw (%.f)", utils.ToFixed(WITHDRAW_THRESHOULD, 2), utils.ToFixed(WITHDRAW_THRESHOULD-dailyWithdraw, 2))
 			conn.Close()
 			return

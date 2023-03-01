@@ -59,6 +59,7 @@ func (c *DeleteAccountUsecase) DeleteAccount(input *InputDeleteAccountDto) (outp
 		return
 	}
 
+	tx.Commit()
 	conn.Close()
 	return
 }

@@ -23,6 +23,7 @@ type ControllerInterface interface {
 	HandlerCreateHolder(w http.ResponseWriter, r *http.Request)
 	HandlerVerifyHolder(w http.ResponseWriter, r *http.Request)
 	HandlerDeleteHolder(w http.ResponseWriter, r *http.Request)
+	HandlerFindHolder(w http.ResponseWriter, r *http.Request)
 	HandlerCreateAccount(w http.ResponseWriter, r *http.Request)
 	HandlerFindAccount(w http.ResponseWriter, r *http.Request)
 	HandlerDeleteAccount(w http.ResponseWriter, r *http.Request)

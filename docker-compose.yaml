@@ -2,38 +2,35 @@ version: "3.7"
 
 services:
   bankingAPI:
-    image: yngviwarrior/bankingAPI:server
-    container_name: bankingAPI
+    image: yngviwarrior/banking-api:local
+    container_name: banking-api
     ports:
       - "3001:3001"
     restart: always
-    logging:
-      driver: none
+    # logging:
+      # driver: none
     networks:
-      - bankingAPI_network
+      - banking-network
     depends_on:
     - db
   db:
     image: mysql
     restart: always
-    logging:
-      driver: none
+    # logging:
+      # driver: none
     container_name: db
     ports:
-      - "3306:3306"
+      - "3307:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: 'XE3kNWeGffTQHb'
-      MYSQL_USER: 'igor'
-      MYSQL_PASS: '123456'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
     volumes:
       - data:/var/lib/mysql
-      - ./my.cnf:/etc/mysql/conf.d/my.cnf
     networks:
-      - bankingAPI_network
+      - banking-network
 
 volumes:
   data:
 
 networks:
-  bankingAPI_network:
+  banking-network:
     driver: bridge

@@ -32,6 +32,7 @@ func InitServer() {
 	r.HandleFunc("/holder/create", controllersInterface.HandlerCreateHolder).Methods("POST")
 	r.HandleFunc("/holder/verify", controllersInterface.HandlerVerifyHolder).Methods("PUT")
 	r.HandleFunc("/holder/delete", controllersInterface.HandlerDeleteHolder).Methods("DELETE")
+	r.HandleFunc("/holder/find", controllersInterface.HandlerFindHolder).Methods("GET")
 	r.HandleFunc("/account/create", controllersInterface.HandlerCreateAccount).Methods("POST")
 	r.HandleFunc("/account/find", controllersInterface.HandlerFindAccount).Methods("GET")
 	r.HandleFunc("/account/delete", controllersInterface.HandlerDeleteAccount).Methods("DELETE")
