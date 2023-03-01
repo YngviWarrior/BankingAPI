@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   bankingAPI:
-    image: yngviwarrior/banking-api:local
+    image: yngviwarrior/banking-api:server
     container_name: banking-api
     ports:
       - "3001:3001"
@@ -12,13 +12,13 @@ services:
     networks:
       - banking-network
     depends_on:
-    - db
-  db:
+    - bankingDB
+  bankingDB:
     image: mysql
     restart: always
     # logging:
       # driver: none
-    container_name: db
+    container_name: bankingDB
     ports:
       - "3307:3306"
     environment:

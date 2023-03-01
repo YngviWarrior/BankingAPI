@@ -24,12 +24,6 @@ func (c *FindHolderUsecase) FindHolder(input *InputFindHolderDto) (output Output
 		return
 	}
 
-	if h.Verified {
-		conn.Close()
-		err = fmt.Errorf("holder has already been verified")
-		return
-	}
-
 	output.FullName = h.FullName
 	output.CPF = h.CPF
 	output.Activated = h.Activated

@@ -30,6 +30,7 @@ type ControllerInterface interface {
 	HandlerBlockAccount(w http.ResponseWriter, r *http.Request)
 	HandlerTransactionAccount(w http.ResponseWriter, r *http.Request)
 	HandlerListStatement(w http.ResponseWriter, r *http.Request)
+	HandlerListTransactionType(w http.ResponseWriter, r *http.Request)
 }
 
 func (c *Controllers) InputValidation(w http.ResponseWriter, input any) bool {
