@@ -49,10 +49,9 @@ CREATE TABLE IF NOT EXISTS `transaction_type`(
     PRIMARY KEY (`transaction_type`)
 );
 
-INSERT INTO `transaction_type` (`description`) VALUES ('openning account'),
+INSERT INTO `transaction_type` (`description`) VALUES ('opening account'),
 ('deposit'),
-('withdraw'),
-('transfer');
+('withdraw');
 
 DROP TABLE IF EXISTS `account_statement`;
 CREATE TABLE IF NOT EXISTS `account_statement`(

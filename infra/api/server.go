@@ -39,6 +39,7 @@ func InitServer() {
 	r.HandleFunc("/account/block", controllersInterface.HandlerBlockAccount).Methods("PUT")
 	r.HandleFunc("/account/transaction", controllersInterface.HandlerTransactionAccount).Methods("PUT")
 	r.HandleFunc("/account/statement/list", controllersInterface.HandlerListStatement).Methods("GET")
+	r.HandleFunc("/account/statement/types", controllersInterface.HandlerListTransactionType).Methods("GET")
 
 	log.Printf("Running on port %s", os.Getenv("PORT"))
 	err := http.ListenAndServe(os.Getenv("PORT"), c.Handler(r))
