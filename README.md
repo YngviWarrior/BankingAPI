@@ -1,33 +1,35 @@
-# Banking API
+Hello Dock's dev team !!
 
-- Pre-requisites
-  
-  Go Version: 1.19 <br>
-  Docker <br>
-  Any testable tool with TCP protocol like Postman or Insomnia.
+Irei escrever em português a partir de agora para mais fácil compreensão :D
 
-- Project Resume
+A API está dividida em 2 micro-serviços (holder e account), ambos estão escritos na arquitetura clean (Clean Architecture) e hospedadas em nuvem no IP: http://177.153.20.221
 
-  Banking API project for TEST proposes.
-  The Holder MicroService will be bound at 3001 port.  
-  The Account MicroService will be bound at 3002 port.
+    Estou compartilhando a collection da API no POSTMAN para maior comodidade, está collection está direcionada para o IP acima.
+    Para entender oque foi usado, o README.md e o manifesto.yaml ajudarão.
+    Além de disponível em nuvem, o projeto pode ser testado localmente, as instruções estão no README.md.
 
-- Setting up the project
+Apenas para maior comodidade do avaliador, aqui está um tutorial para fácil manuseio da API.
+Sinta-se livre para ignora-lo se for de sua vontade.
 
-  Step 1: $ docker-compose up -d
+    # Gerando o mínimo de informações para uso.
 
-  Step 2: $ docker network inspect bankingapi_banking-network
+    1. HolderCreate
+    2. HolderVerify
+    3. AccountCreate
+    4. AccountBlock (bloqueio e desbloquei no mesmo endpoint)
+
+    # Teste oque lhe vier na cabeça.
+
+    5. TransactionTypeList (para criar transações, precisamos dos tipos de transações)
+    6. AccountTransaction
+    7. AccountFind OU HolderFind (nas informações do holder, há uma lista de contas vinculadas a ele)
+    8. AccountStatements (Lista as movimentações da conta)
+
+    # Finalizando Conta e "Deletando" o cliente.
+
+    9. AccountDelete (gera um pedido de saque, zerando a conta)
+    10. HolderDelete (não acho correto perdermos as informações, então desativei o cliente, NÃO HÁ como ativa-lo novamente pela API)    
     
-  Step 3: Copy the Getway IP, that IP will be use to log in into our mysql database. Ex: "Gateway": "192.168.32.1"
+!!! QUALQUER DÚVIDA, ME LIGUE OU ENVIE UM ZAP (31) 98662-1962 !!!
 
-  Step 4: Open the project folder on terminal and execute the follow command: $ cat .sql | mysql -h 192.168.32.1 -u root -P 3307 -p
-
-  Step 5: $ docker-compose down
-
-- Run the project
-
-  $ docker-compose up -d
-
-<b>The Project is Ready ! Open your Postman</b>
-
-
+Atenciosamente, Igor :) 
