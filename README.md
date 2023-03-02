@@ -16,11 +16,11 @@
 
   Step 1: $ docker-compose up -d
 
-  Step 2: $ docker network inspect banking-api_banking-network
+  Step 2: $ docker network inspect bankingapi_banking-network
     
-  Step 3: Copy the Getway IP, that IP will be use to log in into our mysql database. Ex: "Gateway": "192.168.80.1"
+  Step 3: Copy the Getway IP, that IP will be use to log in into our mysql database. Ex: "Gateway": "192.168.32.1"
 
-  Step 4: Open the project folder on terminal and execute the follow command: $ cat infra/database/repositories/mysqlRepositories/.sql | mysql -h 192.168.80.1 -u root -P 3307 -p
+  Step 4: Open the project folder on terminal and execute the follow command: $ cat .sql | mysql -h 192.168.32.1 -u root -P 3307 -p
 
   Step 5: $ docker-compose down
 

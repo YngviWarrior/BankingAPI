@@ -2,11 +2,11 @@ Hello Dock's dev team !!
 
 Irei escrever em português a partir de agora para mais fácil compreensão :D
 
-A API está escrita na arquitetura clean (Clean Architecture) e está em nuvem: http://177.153.20.221:3001
+A API está dividida em 2 micro-serviços (holder e account), ambos estão escritos na arquitetura clean (Clean Architecture) e hospedadas em nuvem no IP: http://177.153.20.221
 
-    Estou compartilhando a collection feita no POSTMAN para maior comodidade, está collection está direcionada para o IP acima.
+    Estou compartilhando a collection da API no POSTMAN para maior comodidade, está collection está direcionada para o IP acima.
     Para entender oque foi usado, o README.md e o manifesto.yaml ajudarão.
-    Além de estar em nuvem, vocês podem testar local, as instruções estão no README.md.
+    Além de disponível em nuvem, o projeto pode ser testado localmente, as instruções estão no README.md.
 
 Apenas para maior comodidade do avaliador, aqui está um tutorial para fácil manuseio da API.
 Sinta-se livre para ignora-lo se for de sua vontade.

@@ -150,7 +150,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"account\": 19,\n    \"date_start\": \"2023-02-01\",\n    \"date_finish\": \"2023-03-01\"\n}",
+									"raw": "{\n    \"account_agency\": \"0001\",\n    \"account_number\": \"28354964\",\n    \"date_start\": \"2023-03-01\",\n    \"date_finish\": \"2023-03-03\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -158,9 +158,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{url}}/account/statement/list",
+									"raw": "{{account_url}}/account/statement/list",
 									"host": [
-										"{{url}}"
+										"{{account_url}}"
 									],
 									"path": [
 										"account",
@@ -177,9 +177,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/account/statement/types",
+									"raw": "{{account_url}}/account/statement/types",
 									"host": [
-										"{{url}}"
+										"{{account_url}}"
 									],
 									"path": [
 										"account",
@@ -226,7 +226,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"agency\": \"0001\",\n    \"number\": \"21801769\"\n}",
+							"raw": "{\n    \"agency\": \"0001\",\n    \"number\": \"92118962\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -256,7 +256,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"agency\": \"0001\",\n    \"number\": \"21801769\"\n}",
+							"raw": "{\n    \"agency\": \"0001\",\n    \"number\": \"92118962\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -283,7 +283,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"agency\": \"0001\",\n    \"number\": \"21801769\",\n    \"block\": false\n}",
+							"raw": "{\n    \"agency\": \"0001\",\n    \"number\": \"28354964\",\n    \"block\": false\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -310,7 +310,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"agency\": \"0001\",\n    \"number\": \"21801769\",\n    \"transaction_type\": 2,\n    \"amount\": 2000\n}",
+							"raw": "{\n    \"agency\": \"0001\",\n    \"number\": \"28354964\",\n    \"transaction_type\": 2,\n    \"amount\": 2000\n}",
 							"options": {
 								"raw": {
 									"language": "json"
