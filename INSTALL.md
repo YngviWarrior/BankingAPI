@@ -9,8 +9,8 @@
 - Project Resume
 
   Banking API project for TEST proposes.
-  The Holder MicroService will be bound at 3001 port.  
-  The Account MicroService will be bound at 3002 port.
+  The Holder MicroService will be bind at 3001 port.  
+  The Account MicroService will be bind at 3002 port.
 
 - Setting up the project
 
