@@ -5,8 +5,8 @@
 - O projeto pode ser iniciado localmente, as instruções estão no <b>INSTALL.md</b>.</br>
 - Estou compartilhando a API collection criada no POSTMAN para maior comodidade, está collection está direcionada para o IP acima.
 
-Apenas para maior comodidade do avaliador, aqui está um tutorial para fácil manuseio da API. </br>
-Sinta-se livre para ignora-lo se for de sua vontade.
+- Apenas para maior comodidade do avaliador, aqui está um tutorial para fácil manuseio da API. </br>
+- Sinta-se livre para ignora-lo se for de sua vontade.
 
     # Gerando o mínimo de informações para uso.
 
