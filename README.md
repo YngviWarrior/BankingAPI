@@ -25,7 +25,7 @@
     # Finalizando Conta e "Deletando" o cliente.
 
     9. AccountDelete (gera um pedido de saque, zerando a conta)
-    10. HolderDelete (não acho correto perdermos as informações, então desativei o cliente, NÃO HÁ como ativa-lo novamente pela API)    
+    10. HolderDelete (o ato de deletar apenas desativa o cliente, NÃO HÁ como ativa-lo novamente pela API)    
     
 !!! QUALQUER DÚVIDA, ME LIGUE OU ENVIE UM ZAP (31) 98662-1962 !!!
 
