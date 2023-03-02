@@ -9,13 +9,14 @@
 - Project Resume
 
   Banking API project for TEST proposes.
-  The API will be bound at 3001 of your localhost.  
+  The Holder MicroService will be bound at 3001 port.  
+  The Account MicroService will be bound at 3002 port.
 
 - Setting up the project
 
   Step 1: $ docker-compose up -d
 
-  Step 2: $ docker network inspect dock-goapi_banking-network
+  Step 2: $ docker network inspect banking-api_banking-network
     
   Step 3: Copy the Getway IP, that IP will be use to log in into our mysql database. Ex: "Gateway": "192.168.80.1"
 

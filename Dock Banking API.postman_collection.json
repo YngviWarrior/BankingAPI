@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"full_name\": \"Igor\",\n    \"cpf\": \"262.013.480-34\"\n}",
+							"raw": "{\n    \"full_name\": \"Igor\",\n    \"cpf\": {{cpf}}\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -24,9 +24,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/holder/create",
+							"raw": "{{holder_url}}/holder/create",
 							"host": [
-								"{{url}}"
+								"{{holder_url}}"
 							],
 							"path": [
 								"holder",
@@ -55,7 +55,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"cpf\": \"262.013.480-34\"\n}",
+							"raw": "{\n    \"cpf\": {{cpf}}\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -63,9 +63,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/holder/verify",
+							"raw": "{{holder_url}}/holder/verify",
 							"host": [
-								"{{url}}"
+								"{{holder_url}}"
 							],
 							"path": [
 								"holder",
@@ -82,7 +82,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"cpf\": \"088.301.216-22\"\n}",
+							"raw": "{\n    \"cpf\": {{cpf}}\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -90,9 +90,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/holder/delete",
+							"raw": "{{holder_url}}/holder/delete",
 							"host": [
-								"{{url}}"
+								"{{holder_url}}"
 							],
 							"path": [
 								"holder",
@@ -112,7 +112,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"cpf\": \"262.013.480-34\"\n}",
+							"raw": "{\n    \"cpf\": {{cpf}}\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -120,9 +120,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/holder/find",
+							"raw": "{{holder_url}}/holder/find",
 							"host": [
-								"{{url}}"
+								"{{holder_url}}"
 							],
 							"path": [
 								"holder",
@@ -199,7 +199,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"cpf\": \"262.013.480-34\"\n}",
+							"raw": "{\n    \"cpf\": {{cpf}}\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -207,9 +207,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/account/create",
+							"raw": "{{account_url}}/account/create",
 							"host": [
-								"{{url}}"
+								"{{account_url}}"
 							],
 							"path": [
 								"account",
@@ -226,7 +226,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"agency\": \"0001\",\n    \"number\": \"79862729\"\n}",
+							"raw": "{\n    \"agency\": \"0001\",\n    \"number\": \"21801769\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -234,9 +234,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/account/delete",
+							"raw": "{{account_url}}/account/delete",
 							"host": [
-								"{{url}}"
+								"{{account_url}}"
 							],
 							"path": [
 								"account",
@@ -256,7 +256,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"agency\": \"0001\",\n    \"number\": \"15096032\"\n}",
+							"raw": "{\n    \"agency\": \"0001\",\n    \"number\": \"21801769\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -264,9 +264,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/account/find",
+							"raw": "{{account_url}}/account/find",
 							"host": [
-								"{{url}}"
+								"{{account_url}}"
 							],
 							"path": [
 								"account",
@@ -283,7 +283,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"agency\": \"0001\",\n    \"number\": \"79862729\",\n    \"block\": false\n}",
+							"raw": "{\n    \"agency\": \"0001\",\n    \"number\": \"21801769\",\n    \"block\": false\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -291,9 +291,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/account/block",
+							"raw": "{{account_url}}/account/block",
 							"host": [
-								"{{url}}"
+								"{{account_url}}"
 							],
 							"path": [
 								"account",
@@ -310,7 +310,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"agency\": \"0001\",\n    \"number\": \"79862729\",\n    \"transaction_type\": 2,\n    \"amount\": 2000\n}",
+							"raw": "{\n    \"agency\": \"0001\",\n    \"number\": \"21801769\",\n    \"transaction_type\": 2,\n    \"amount\": 2000\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -318,9 +318,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/account/transaction",
+							"raw": "{{account_url}}/account/transaction",
 							"host": [
-								"{{url}}"
+								"{{account_url}}"
 							],
 							"path": [
 								"account",
@@ -331,6 +331,43 @@
 					"response": []
 				}
 			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "holder_url",
+			"value": "http://177.153.20.221:3001",
+			"type": "string"
+		},
+		{
+			"key": "account_url",
+			"value": "http://177.153.20.221:3002",
+			"type": "string"
+		},
+		{
+			"key": "cpf",
+			"value": "\"031.680.680-39\"",
+			"type": "string"
 		}
 	]
 }

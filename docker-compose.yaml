@@ -1,11 +1,23 @@
 version: "3.7"
 
 services:
-  bankingAPI:
-    image: yngviwarrior/banking-api:server
-    container_name: banking-api
+  bankingHolderMicroService:
+    image: yngviwarrior/banking-holder-ms:server
+    container_name: banking-holder-ms
     ports:
       - "3001:3001"
+    restart: always
+    # logging:
+      # driver: none
+    networks:
+      - banking-network
+    depends_on:
+    - bankingDB
+  bankingAccountMicroService:
+    image: yngviwarrior/banking-account-ms:server
+    container_name: banking-account-ms
+    ports:
+      - "3002:3002"
     restart: always
     # logging:
       # driver: none
