@@ -1,7 +1,5 @@
 Hello Dock's dev team !!
 
-Irei escrever em português a partir de agora para mais fácil compreensão :D
-
 A API está dividida em 2 micro-serviços (holder e account), ambos estão escritos na arquitetura clean (Clean Architecture) e hospedadas em nuvem no IP: http://177.153.20.221
 
     Estou compartilhando a collection da API no POSTMAN para maior comodidade, está collection está direcionada para o IP acima.
