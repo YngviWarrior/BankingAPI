@@ -23,14 +23,21 @@ func (c *ListStatementUsecase) ListStatement(input *InputListStatementDto) (outp
 		return
 	}
 
-	statementList := c.AccountStatementRepository.List(nil, conn, acc.Account, input.DateStart, input.DateFinish)
+	statements := c.AccountStatementRepository.List(nil, conn, acc.Account, input.DateStart, input.DateFinish)
 
-	if len(statementList) == 0 {
+	if len(statements) == 0 {
 		return
 	}
 
-	for _, v := range statementList {
-		output.List = append(output.List, *v)
+	for _, stmt := range statements {
+		var s statementList
+
+		s.CurrentBalance = stmt.CurrentBalance
+		s.PreviousBalance = stmt.PreviousBalance
+		s.RegisteredDate = stmt.RegisteredDate
+		s.TransactionTypeDescription = stmt.TransactionTypeDescription
+
+		output.List = append(output.List, &s)
 	}
 
 	conn.Close()

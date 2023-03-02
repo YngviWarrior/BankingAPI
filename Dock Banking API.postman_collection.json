@@ -1,0 +1,336 @@
+{
+	"info": {
+		"_postman_id": "80eef559-adb6-4e91-a031-f26d0717bd5d",
+		"name": "Dock Banking API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5105637"
+	},
+	"item": [
+		{
+			"name": "Holder",
+			"item": [
+				{
+					"name": "HolderCreate",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"full_name\": \"Igor\",\n    \"cpf\": \"262.013.480-34\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/holder/create",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"holder",
+								"create"
+							],
+							"query": [
+								{
+									"key": "full_name",
+									"value": "Igor Araújo da Silva",
+									"disabled": true
+								},
+								{
+									"key": "cpf",
+									"value": "08830121622",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "HolderVerify",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cpf\": \"262.013.480-34\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/holder/verify",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"holder",
+								"verify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "HolderDelete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cpf\": \"088.301.216-22\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/holder/delete",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"holder",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "HolderFind",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cpf\": \"262.013.480-34\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/holder/find",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"holder",
+								"find"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Account",
+			"item": [
+				{
+					"name": "Account Statement",
+					"item": [
+						{
+							"name": "AccountStatements",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"account\": 19,\n    \"date_start\": \"2023-02-01\",\n    \"date_finish\": \"2023-03-01\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/account/statement/list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"account",
+										"statement",
+										"list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TransactionType",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/account/statement/types",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"account",
+										"statement",
+										"types"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "AccountCreate",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cpf\": \"262.013.480-34\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/account/create",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"account",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AccountDelete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"agency\": \"0001\",\n    \"number\": \"79862729\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/account/delete",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"account",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AccountFind",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"agency\": \"0001\",\n    \"number\": \"15096032\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/account/find",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"account",
+								"find"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AccountBlock",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"agency\": \"0001\",\n    \"number\": \"79862729\",\n    \"block\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/account/block",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"account",
+								"block"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AccontTransaction",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"agency\": \"0001\",\n    \"number\": \"79862729\",\n    \"transaction_type\": 2,\n    \"amount\": 2000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/account/transaction",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"account",
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

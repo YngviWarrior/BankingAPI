@@ -12,7 +12,7 @@ import (
 type AccountStatementRepository struct{}
 
 type AccountStatementRepositoryInterface interface {
-	List(tx *sql.Tx, conn *sql.Conn, accountId uint64, dateStart, dateFinish string) (list []*accountStatement.AccountStatement)
+	List(tx *sql.Tx, conn *sql.Conn, accountId uint64, dateStart, dateFinish string) (list []*accountStatement.AccountStatementTransactionType)
 	Create(tx *sql.Tx, conn *sql.Conn, u accountStatement.AccountStatement) bool
 	UpdateDynamically(tx *sql.Tx, conn *sql.Conn, updateFields []string, updatefieldValues []any, wherecolumns []string, wherevalues []any, paginationValues []any, order string) bool
 }
@@ -62,11 +62,12 @@ func (h *AccountStatementRepository) Create(tx *sql.Tx, conn *sql.Conn, acc acco
 	return true
 }
 
-func (*AccountStatementRepository) List(tx *sql.Tx, conn *sql.Conn, accountId uint64, dateStart, dateFinish string) (list []*accountStatement.AccountStatement) {
+func (*AccountStatementRepository) List(tx *sql.Tx, conn *sql.Conn, accountId uint64, dateStart, dateFinish string) (list []*accountStatement.AccountStatementTransactionType) {
 	query := `
-	SELECT account_statement, account, transaction_type, previous_balance, current_balance, registered_at
-	FROM account_statement
-	WHERE account = ? AND registered_at BETWEEN "` + dateStart + `" AND "` + dateFinish + `"`
+	SELECT a.account_statement, a.account, a.transaction_type, a.previous_balance, a.current_balance, a.registered_at, tp.description
+	FROM account_statement a
+	JOIN transaction_type tp ON a.transaction_type = tp.transaction_type
+	WHERE a.account = ? AND a.registered_at BETWEEN "` + dateStart + `" AND "` + dateFinish + `"`
 
 	stmt, err := repositories.Prepare(tx, conn, query)
 
@@ -87,9 +88,9 @@ func (*AccountStatementRepository) List(tx *sql.Tx, conn *sql.Conn, accountId ui
 	}
 
 	for res.Next() {
-		var a accountStatement.AccountStatement
+		var a accountStatement.AccountStatementTransactionType
 
-		err := res.Scan(&a.AccountStatement, &a.Account, &a.TransactionType, &a.PreviousBalance, &a.CurrentBalance, &a.RegisteredDate)
+		err := res.Scan(&a.AccountStatement, &a.Account, &a.TransactionType, &a.PreviousBalance, &a.CurrentBalance, &a.RegisteredDate, &a.TransactionTypeDescription)
 
 		if err != nil {
 			log.Panic("ASRL 03: ", err)

@@ -6,13 +6,13 @@ type InputListStatementDto struct {
 	DateFinish string
 }
 
+type statementList struct {
+	TransactionTypeDescription string  `json:"transaction_type_description"`
+	PreviousBalance            float64 `json:"previous_balance"`
+	CurrentBalance             float64 `json:"current_balance"`
+	RegisteredDate             string  `json:"registered_at"`
+}
+
 type OutputListStatementDto struct {
-	List []struct {
-		AccountStatement uint64  `json:"account_statement"`
-		Account          uint64  `json:"account"`
-		TransactionType  uint64  `json:"transaction_type"`
-		PreviousBalance  float64 `json:"previous_balance"`
-		CurrentBalance   float64 `json:"current_balance"`
-		RegisteredDate   string  `json:"registered_at"`
-	} `json:"list"`
+	List []*statementList `json:"statements,omitempty"`
 }
