@@ -1,9 +1,9 @@
 <h1>Hello Dock's dev team !!</h1>
 
-A API está dividida em 2 micro-serviços (holder e account), ambos estão escritos na arquitetura clean (Clean Architecture), hospedadas em nuvem no IP: http://177.153.20.221.
+- A API está dividida em 2 micro-serviços (holder e account), ambos estão escritos na arquitetura clean (Clean Architecture), hospedadas em nuvem no IP: http://177.153.20.221.
 
-    - O projeto pode ser iniciado localmente, as instruções estão no <b>INSTALL.md</b>.</br>
-    - Estou compartilhando a API collection criada no POSTMAN para maior comodidade, está collection está direcionada para o IP acima.
+- O projeto pode ser iniciado localmente, as instruções estão no <b>INSTALL.md</b>.</br>
+- Estou compartilhando a API collection criada no POSTMAN para maior comodidade, está collection está direcionada para o IP acima.
 
 Apenas para maior comodidade do avaliador, aqui está um tutorial para fácil manuseio da API.
 Sinta-se livre para ignora-lo se for de sua vontade.
