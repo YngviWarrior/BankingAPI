@@ -4,7 +4,7 @@ A API está dividida em 2 micro-serviços (holder e account), ambos estão escri
 
     Estou compartilhando a API collection criada no POSTMAN para maior comodidade, está collection está direcionada para o IP acima.
     Para entender oque foi usado, o README.md e o manifesto.yaml ajudarão.
-    Além de disponível em nuvem, o projeto pode ser testado localmente, as instruções estão no README.md.
+    Além de disponível em nuvem, o projeto pode ser iniciado localmente, as instruções estão no README.md.
 
 Apenas para maior comodidade do avaliador, aqui está um tutorial para fácil manuseio da API.
 Sinta-se livre para ignora-lo se for de sua vontade.
