@@ -25,6 +25,3 @@
 - If is needed Reboot the project
 
   $ docker-compose down && docker-compose up -d
-
-
-
