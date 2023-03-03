@@ -22,12 +22,11 @@
 
   Step 4: Open the project folder on terminal and execute the follow command: $ cat .sql | mysql -h 192.168.32.1 -u root -P 3307 -p
 
-  Step 5: $ docker-compose down
+<b>The Project is Running ! Open your Postman.</b>
 
-- Run the project
+- If is needed Reboot the project
 
-  $ docker-compose up -d
+  $ docker-compose down && docker-compose up -d
 
-<b>The Project is Ready ! Open your Postman</b>
 
 
