@@ -4,7 +4,6 @@ import (
 	server "holder-ms/infra/api"
 	"log"
 	"os"
-	"time"
 
 	"github.com/joho/godotenv"
 )
@@ -20,11 +19,9 @@ func main() {
 
 	switch os.Getenv("ENVIROMENT") {
 	case "local":
-		loc, _ := time.LoadLocation("America/Sao_Paulo")
-		time.Local = loc
-
-		log.SetOutput(file)
 		log.SetOutput(os.Stdout)
+	case "server":
+		log.SetOutput(file)
 	}
 
 	if err != nil {
