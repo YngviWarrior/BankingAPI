@@ -44,4 +44,5 @@ func InitServer() {
 	if err != nil {
 		log.Fatalf("%v", err)
 	}
+
 }
