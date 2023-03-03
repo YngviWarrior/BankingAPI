@@ -17,7 +17,8 @@
   Step 1: $ docker-compose up -d
 
   Step 2: Open the project folder on terminal and execute the follow command: $ cat .sql | mysql -h 127.0.0.1 -u root -P 3307
-    Obs: the loopback IP (127.0.0.1) it's necessary !
+
+  Obs: the loopback IP (127.0.0.1) it's necessary !
 
 <b>The Project is Running ! Open your Postman.</b>
 
