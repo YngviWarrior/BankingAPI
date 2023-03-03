@@ -16,11 +16,8 @@
 
   Step 1: $ docker-compose up -d
 
-  Step 2: $ docker network inspect bankingapi_banking-network
-    
-  Step 3: Copy the Getway IP, that IP will be use to log in into our mysql database. Ex: "Gateway": "192.168.32.1"
-
-  Step 4: Open the project folder on terminal and execute the follow command: $ cat .sql | mysql -h 192.168.32.1 -u root -P 3307 -p
+  Step 2: Open the project folder on terminal and execute the follow command: $ cat .sql | mysql -h 127.0.0.1 -u root -P 3307
+    Obs: the loopback IP (127.0.0.1) it's necessary !
 
 <b>The Project is Running ! Open your Postman.</b>
 
