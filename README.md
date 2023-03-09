@@ -1,4 +1,4 @@
-<h1>Hello Dock's dev team !!</h1>
+<h1>Hello Devs !!</h1>
 
 - A API está dividida em 2 micro-serviços (holder e account), ambos estão escritos na arquitetura clean (Clean Architecture), hospedadas em nuvem no IP: http://177.153.20.221.
 
