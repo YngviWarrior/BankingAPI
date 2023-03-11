@@ -1,6 +1,20 @@
 version: "3.7"
 
 services:
+  bankingDB:
+    image: mysql
+    restart: always
+    # logging:
+      # driver: none
+    container_name: bankingDB
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    volumes:
+      - data:/var/lib/mysql
+    networks:
+      - banking-network
   bankingHolderMicroService:
     image: yngviwarrior/banking-holder-ms:server
     container_name: banking-holder-ms
@@ -25,20 +39,6 @@ services:
       - banking-network
     depends_on:
     - bankingDB
-  bankingDB:
-    image: mysql
-    restart: always
-    # logging:
-      # driver: none
-    container_name: bankingDB
-    ports:
-      - "3307:3306"
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: 1
-    volumes:
-      - data:/var/lib/mysql
-    networks:
-      - banking-network
 
 volumes:
   data:
